@@ -1,0 +1,19 @@
+drug_a,drug_b,severity,description
+Warfarin,Aspirin,severe,Combining increases bleeding risk significantly; both affect blood clotting.
+Warfarin,Ibuprofen,severe,NSAIDs like ibuprofen can increase bleeding risk when combined with warfarin.
+Metformin,Alcohol,moderate,Alcohol can increase the risk of lactic acidosis when combined with metformin.
+Simvastatin,Clarithromycin,severe,Clarithromycin can raise simvastatin levels, increasing risk of muscle damage (rhabdomyolysis).
+Lisinopril,Ibuprofen,moderate,NSAIDs may reduce the blood-pressure-lowering effect of ACE inhibitors and affect kidney function.
+Sertraline,Tramadol,severe,Combining increases risk of serotonin syndrome.
+Metoprolol,Verapamil,severe,Combining beta-blockers with certain calcium channel blockers can cause dangerously low heart rate/blood pressure.
+Digoxin,Furosemide,moderate,Furosemide can cause potassium loss, increasing risk of digoxin toxicity.
+Levothyroxine,Calcium Carbonate,moderate,Calcium can reduce absorption of levothyroxine; space doses apart by several hours.
+Amiodarone,Simvastatin,severe,Amiodarone increases simvastatin levels, raising risk of muscle toxicity.
+Ciprofloxacin,Theophylline,moderate,Ciprofloxacin can raise theophylline levels, increasing risk of toxicity.
+Spironolactone,Lisinopril,moderate,Combining increases risk of dangerously high potassium levels (hyperkalemia).
+Sildenafil,Nitroglycerin,severe,Combining can cause a severe, dangerous drop in blood pressure.
+Methotrexate,Ibuprofen,severe,NSAIDs can reduce methotrexate clearance, increasing risk of toxicity.
+Clopidogrel,Omeprazole,moderate,Omeprazole may reduce the antiplatelet effectiveness of clopidogrel.
+Fluoxetine,Tramadol,severe,Combining increases risk of serotonin syndrome.
+Insulin,Alcohol,moderate,Alcohol can increase the risk of low blood sugar (hypoglycemia) when combined with insulin.
+Aspirin,Ibuprofen,mild,Regular ibuprofen use may reduce the cardioprotective antiplatelet effect of low-dose aspirin.
