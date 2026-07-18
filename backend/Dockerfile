@@ -12,12 +12,16 @@ RUN python -m spacy download en_core_web_sm
 
 COPY . .
 
-# Persistent volume should be mounted at /data on the host platform - SQLite DB,
-# ChromaDB store, and uploaded documents all need to survive redeploys.
+# /app/data is created here so the app works even with no persistent volume
+# mounted (e.g. free-tier hosting) - data just won't survive a restart/redeploy
+# in that case. If a persistent volume IS mounted at this same path on a paid
+# tier, it transparently takes over and data does survive.
+RUN mkdir -p /app/data
+
 ENV TESSERACT_CMD=/usr/bin/tesseract \
-    DATABASE_URL=sqlite:////data/pharmveda.db \
-    UPLOAD_DIR=/data/uploads \
-    CHROMA_DIR=/data/chroma_data
+    DATABASE_URL=sqlite:////app/data/pharmveda.db \
+    UPLOAD_DIR=/app/data/uploads \
+    CHROMA_DIR=/app/data/chroma_data
 
 EXPOSE 8000
 CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
