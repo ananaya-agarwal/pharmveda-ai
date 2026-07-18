@@ -43,10 +43,16 @@ def chat(
     # Deferred from app startup (see main.py) so a small hosting tier can boot
     # without loading the embedding model until RAG is actually used. Only pays
     # the load cost once - needs_seeding() is false on every call after the first.
-    if needs_seeding():
-        seed_reference_docs()
-
-    reference_chunks = rag_query(payload.question, top_k=4)
+    # Reference grounding is a nice-to-have, not a hard dependency: if seeding or
+    # the embedding call fails (bad/missing API key, network blip), the user's own
+    # health context below still lets the LLM answer - just without cited reference
+    # material - rather than failing the whole request.
+    try:
+        if needs_seeding():
+            seed_reference_docs()
+        reference_chunks = rag_query(payload.question, top_k=4)
+    except Exception:
+        reference_chunks = []
     reference_text = "\n\n".join(reference_chunks) if reference_chunks else "No matching reference material found."
 
     user_prompt = (
