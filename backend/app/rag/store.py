@@ -25,6 +25,10 @@ def upsert_documents(ids: list[str], texts: list[str]) -> None:
     collection.upsert(ids=ids, documents=texts, embeddings=embeddings)
 
 
+def needs_seeding() -> bool:
+    return get_collection().count() == 0
+
+
 def query(text: str, top_k: int = 4) -> list[str]:
     collection = get_collection()
     if collection.count() == 0:

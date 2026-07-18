@@ -10,7 +10,8 @@ from app.db.models import LabValue, Medicine, User
 from app.db.session import get_db
 from app.llm.factory import get_llm_provider
 from app.llm.prompts import RAG_CHAT_SYSTEM_PROMPT, SAFETY_DISCLAIMER
-from app.rag.store import query as rag_query
+from app.rag.seed import seed_reference_docs
+from app.rag.store import needs_seeding, query as rag_query
 
 router = APIRouter(prefix="/chat", tags=["chat"])
 
@@ -39,6 +40,12 @@ def _stream_chat(user_prompt: str) -> Iterator[str]:
 def chat(
     payload: ChatRequest, user: User = Depends(get_current_user), db: Session = Depends(get_db)
 ):
+    # Deferred from app startup (see main.py) so a small hosting tier can boot
+    # without loading the embedding model until RAG is actually used. Only pays
+    # the load cost once - needs_seeding() is false on every call after the first.
+    if needs_seeding():
+        seed_reference_docs()
+
     reference_chunks = rag_query(payload.question, top_k=4)
     reference_text = "\n\n".join(reference_chunks) if reference_chunks else "No matching reference material found."
 

@@ -13,13 +13,16 @@ from app.api import (
 )
 from app.config import settings
 from app.db.session import init_db
-from app.rag.seed import seed_reference_docs
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
-    seed_reference_docs()
+    # Reference-doc seeding is deliberately NOT run here: it loads
+    # sentence-transformers (full PyTorch backend) to compute embeddings, which is
+    # large enough to OOM small hosting tiers (e.g. Render free, 512MB) if paid at
+    # startup before the server can even bind its port. It's deferred to the first
+    # /chat request instead - see routes_chat.py.
     yield
 
 
